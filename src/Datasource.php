@@ -1,0 +1,39 @@
+<?php
+
+namespace FcPhp\Datasource
+{
+    use FcPhp\Datasource\Interfaces\IDatasource;
+
+    class Datasource implements IDatasource
+    {
+        /**
+         * Method to connect
+         *
+         * @return void
+         */
+        public function connect()
+        {
+            return null;
+        }
+
+        /**
+         * Method to disconnect
+         *
+         * @return void
+         */
+        public function disconnect()
+        {
+            return null;
+        }
+
+        /**
+         * Method to execute query
+         *
+         * @return array
+         */
+        public function execute($query) :array
+        {
+            return [];
+        }
+    }
+}
