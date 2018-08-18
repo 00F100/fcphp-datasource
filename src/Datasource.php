@@ -4,7 +4,7 @@ namespace FcPhp\Datasource
 {
     use FcPhp\Datasource\Interfaces\IDatasource;
 
-    class Datasource implements IDatasource
+    abstract class Datasource implements IDatasource
     {
         /**
          * Method to connect
