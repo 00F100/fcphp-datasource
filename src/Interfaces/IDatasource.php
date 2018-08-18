@@ -2,6 +2,8 @@
 
 namespace FcPhp\Datasource\Interfaces
 {
+    use FcPhp\Query\Interfaces\IQuery;
+
     interface IDatasource
     {
         /**
@@ -23,6 +25,6 @@ namespace FcPhp\Datasource\Interfaces
          *
          * @return array
          */
-        public function execute($query) :array;
+        public function execute(IQuery $query) :array;
     }
 }

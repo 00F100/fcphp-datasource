@@ -2,6 +2,7 @@
 
 namespace FcPhp\Datasource
 {
+    use FcPhp\Query\Interfaces\IQuery;
     use FcPhp\Datasource\Interfaces\IDatasource;
 
     abstract class Datasource implements IDatasource
@@ -31,7 +32,7 @@ namespace FcPhp\Datasource
          *
          * @return array
          */
-        public function execute($query) :array
+        public function execute(IQuery $query) :array
         {
             return [];
         }
