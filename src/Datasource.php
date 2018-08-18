@@ -36,5 +36,15 @@ namespace FcPhp\Datasource
         {
             return [];
         }
+
+        /**
+         * Method to return strategy of query
+         *
+         * @return string|null
+         */
+        public function getStrategy()
+        {
+            return null;
+        }
     }
 }
