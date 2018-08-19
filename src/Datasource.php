@@ -2,7 +2,7 @@
 
 namespace FcPhp\Datasource
 {
-    use FcPhp\Query\Interfaces\IQuery;
+    use FcPhp\Datasource\Interfaces\IQuery;
     use FcPhp\Datasource\Interfaces\IDatasource;
 
     abstract class Datasource implements IDatasource

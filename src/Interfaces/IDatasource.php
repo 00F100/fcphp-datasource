@@ -2,7 +2,7 @@
 
 namespace FcPhp\Datasource\Interfaces
 {
-    use FcPhp\Query\Interfaces\IQuery;
+    use FcPhp\Datasource\Interfaces\IQuery;
 
     interface IDatasource
     {
