@@ -2,23 +2,21 @@
 
 namespace FcPhp\Datasource\Interfaces
 {
-    use FcPhp\Datasource\Interfaces\IQuery;
-
     interface IDatasource
     {
         /**
          * Method to connect
          *
-         * @return void
+         * @return bool
          */
-        public function connect();
+        public function connect() :bool;
 
         /**
          * Method to disconnect
          *
-         * @return void
+         * @return bool
          */
-        public function disconnect();
+        public function disconnect() :bool;
 
         /**
          * Method to execute query
@@ -26,5 +24,12 @@ namespace FcPhp\Datasource\Interfaces
          * @return array
          */
         public function execute(IQuery $query) :array;
+
+        /**
+         * Method to return strategy of query
+         *
+         * @return string|null
+         */
+        public function getStrategy();
     }
 }

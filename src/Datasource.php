@@ -7,24 +7,27 @@ namespace FcPhp\Datasource
 
     abstract class Datasource implements IDatasource
     {
+        protected $isConnected;
+        protected $strategy;
+
         /**
          * Method to connect
          *
-         * @return void
+         * @return bool
          */
-        public function connect()
+        public function connect() :bool
         {
-            return null;
+            return false;
         }
 
         /**
          * Method to disconnect
          *
-         * @return void
+         * @return bool
          */
-        public function disconnect()
+        public function disconnect() :bool
         {
-            return null;
+            return false;
         }
 
         /**
