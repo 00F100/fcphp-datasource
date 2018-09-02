@@ -71,6 +71,12 @@ class DatasourceIntegrationTest extends TestCase
         $this->query = $this->factory->getQuery();
         $this->assertInstanceOf(IQuery::class, $this->query);
     }
+
+    public function testGetCriteria()
+    {
+        $criteria = $this->factory->getCriteria();
+        $this->assertInstanceOf(ICriteria::class, $criteria);
+    }
 }
 
 class MockIntergrationDatasource extends Datasource

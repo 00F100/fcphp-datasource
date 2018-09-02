@@ -8,6 +8,8 @@ namespace FcPhp\Datasource\Factories
     use FcPhp\Datasource\Query;
     use FcPhp\Datasource\Interfaces\IQuery;
     use FcPhp\Datasource\Interfaces\IStrategy;
+    use FcPhp\Datasource\Interfaces\ICriteria;
+    use FcPhp\Datasource\Criteria;
     use FcPhp\Datasource\Exceptions\StrategyNotFoundException;
 
     class Factory implements IFactory
@@ -45,7 +47,6 @@ namespace FcPhp\Datasource\Factories
                 if(!$this->di->has('FcPhp/Datasource/Query')) {
                     $this->di->setNonSingleton('FcPhp/Datasource/Query', 'FcPhp\Datasource\Query');
                 }
-                $strategies = $this->strategies;
                 return $this->di->make('FcPhp/Datasource/Query', ['strategy' => $this->getStrategy($strategy)]);
             }
             return new Query($this->getStrategy($strategy));
@@ -58,9 +59,22 @@ namespace FcPhp\Datasource\Factories
                 if(!$this->di->has($alias)) {
                     $this->di->setNonSingleton($alias, $namespace);
                 }
-                return $this->di->make($alias);
+                $factory = $this;
+                return $this->di->make($alias, ['factory' => $factory]);
             }
             return new $namespace();
+        }
+
+        public function getCriteria() :ICriteria
+        {
+            $factory = $this;
+            if($this->di instanceof IDi) {
+                if(!$this->di->has('FcPhp/Datasource/Criteria')) {
+                    $this->di->setNonSingleton('FcPhp/Datasource/Criteria', 'FcPhp\Datasource\Criteria');
+                }
+                return $this->di->make('FcPhp/Datasource/Criteria');
+            }
+            return new Criteria();
         }
     }
 }
