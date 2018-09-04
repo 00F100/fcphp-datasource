@@ -8,9 +8,11 @@ namespace FcPhp\Datasource
     abstract class Strategy implements IStrategy
     {
         protected $factory;
+        protected $criteria;
 
-        public function __construct(IFactory $factory)
+        public function __construct(string $criteria, IFactory $factory)
         {
+            $this->criteria = $criteria;
             $this->factory = $factory;
         }
 
@@ -29,9 +31,9 @@ namespace FcPhp\Datasource
             return $this;
         }
 
-        protected function getCriteria(string $name)
+        protected function getCriteria()
         {
-            $this->factory->getCriteria();
+            $this->factory->getCriteria($this->criteria);
         }
     }
 }

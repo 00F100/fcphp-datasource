@@ -11,6 +11,16 @@ namespace FcPhp\Datasource
         protected $strategy;
 
         /**
+         * Method to construct instance
+         *
+         * @param string $strategy Strategy to use
+         */
+        public function __construct(string $strategy)
+        {
+            $this->strategy = $strategy;
+        }
+
+        /**
          * Method to connect
          *
          * @return bool
@@ -43,11 +53,11 @@ namespace FcPhp\Datasource
         /**
          * Method to return strategy of query
          *
-         * @return string|null
+         * @return string
          */
-        public function getStrategy()
+        public function getStrategy() :string
         {
-            return null;
+            return return $this->strategy;
         }
     }
 }

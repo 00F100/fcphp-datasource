@@ -47,21 +47,21 @@ namespace FcPhp\Datasource\Factories
         //     'amazon-sqs' => 'FcPhp/Amazon/Criterias/Sqs',
         //     'amazon-redshift' => 'FcPhp/Amazon/Criterias/Redshift',
         // ];
-        public function __construct(string $strategy, string $criteria, array $strategies, array $criterias, IDi $di = null)
+        public function __construct(array $strategies, array $criterias, IDi $di = null)
         {
             $this->strategies = $strategies;
-            $this->criteria = $criteria;
+            // $this->criteria = $criteria;
             $this->criterias = $criterias;
-            $this->strategy = $strategy;
+            // $this->strategy = $strategy;
             $this->di = $di;
         }
 
-        public function getQuery() :IQuery
+        public function getQuery(string $strategy) :IQuery
         {
-            if(!isset($this->strategies[$this->strategy])) {
+            if(!isset($this->strategies[$strategy])) {
                 throw new StrategyNotFoundException();
             }
-            $strategy = $this->strategies[$this->strategy];
+            $strategy = $this->strategies[$strategy];
             if($this->di instanceof IDi) {
                 if(!$this->di->has('FcPhp/Datasource/Query')) {
                     $this->di->setNonSingleton('FcPhp/Datasource/Query', 'FcPhp\Datasource\Query');
@@ -71,23 +71,9 @@ namespace FcPhp\Datasource\Factories
             return new Query($this->getStrategy($strategy));
         }
 
-        public function getStrategy(string $alias) :IStrategy
-        {
-            $namespace = str_replace('/', '\\', $alias);
-            if($this->di instanceof IDi) {
-                if(!$this->di->has($alias)) {
-                    $this->di->setNonSingleton($alias, $namespace);
-                }
-                $factory = $this;
-                return $this->di->make($alias, ['factory' => $factory]);
-            }
-            return new $namespace();
-        }
-
-        public function getCriteria() :ICriteria
+        public function getCriteria(string $criteria) :ICriteria
         {
             $factory = $this;
-            $criteria = $this->criteria;
             if(isset($this->criterias[$criteria])) {
                 $alias = $this->criterias[$criteria];
                 $namespace = str_replace('/', '\\', $alias);
@@ -100,6 +86,19 @@ namespace FcPhp\Datasource\Factories
                 return new $namespace($factory);
             }
             
+        }
+
+        private function getStrategy(string $alias) :IStrategy
+        {
+            $namespace = str_replace('/', '\\', $alias);
+            if($this->di instanceof IDi) {
+                if(!$this->di->has($alias)) {
+                    $this->di->setNonSingleton($alias, $namespace);
+                }
+                $factory = $this;
+                return $this->di->make($alias, ['factory' => $factory]);
+            }
+            return new $namespace();
         }
     }
 }
