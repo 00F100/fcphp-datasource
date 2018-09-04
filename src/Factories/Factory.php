@@ -30,9 +30,28 @@ namespace FcPhp\Datasource\Factories
         //     'amazon-sqs' => 'FcPhp/Amazon/Strategies/Sqs',
         //     'amazon-redshift' => 'FcPhp/Amazon/Strategies/Redshift',
         // ];
-        public function __construct(string $strategy, array $strategies, IDi $di = null)
+        private $criteria;
+        private $criterias = [];
+        // private $criterias = [
+        //     'mysql' => 'FcPhp/Datasource/MySQL/Criterias/MySQL',
+        //     'postgresql' => 'FcPhp/PostgreSQL/Criterias/PostgreSQL',
+        //     'sqlserver' => 'FcPhp/SQLServer/Criterias/SQLServer',
+        //     'sqlite' => 'FcPhp/SQLite/Criterias/SQLite',
+        //     'mongodb' => 'FcPhp/MongoDB/Criterias/MongoDB',
+        //     'soap' => 'FcPhp/SOAP/Criterias/SOAP',
+        //     'ldap' => 'FcPhp/Ldap/Criterias/Ldap',
+        //     'rest' => 'FcPhp/Rest/Criterias/Rest',
+        //     'file' => 'FcPhp/File/Criterias/File',
+        //     'amazon-bucket' => 'FcPhp/Amazon/Criterias/Bucket',
+        //     'amazon-log' => 'FcPhp/Amazon/Criterias/Log',
+        //     'amazon-sqs' => 'FcPhp/Amazon/Criterias/Sqs',
+        //     'amazon-redshift' => 'FcPhp/Amazon/Criterias/Redshift',
+        // ];
+        public function __construct(string $strategy, string $criteria, array $strategies, array $criterias, IDi $di = null)
         {
             $this->strategies = $strategies;
+            $this->criteria = $criteria;
+            $this->criterias = $criterias;
             $this->strategy = $strategy;
             $this->di = $di;
         }
@@ -68,13 +87,19 @@ namespace FcPhp\Datasource\Factories
         public function getCriteria() :ICriteria
         {
             $factory = $this;
-            if($this->di instanceof IDi) {
-                if(!$this->di->has('FcPhp/Datasource/Criteria')) {
-                    $this->di->setNonSingleton('FcPhp/Datasource/Criteria', 'FcPhp\Datasource\Criteria');
+            $criteria = $this->criteria;
+            if(isset($this->criterias[$criteria])) {
+                $alias = $this->criterias[$criteria];
+                $namespace = str_replace('/', '\\', $alias);
+                if($this->di instanceof IDi) {
+                    if(!$this->di->has($alias)) {
+                        $this->di->setNonSingleton($alias, $namespace);
+                    }
+                    return $this->di->make($alias, compact('criteria', 'factory'));
                 }
-                return $this->di->make('FcPhp/Datasource/Criteria');
+                return new $namespace($factory);
             }
-            return new Criteria();
+            
         }
     }
 }

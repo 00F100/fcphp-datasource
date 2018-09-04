@@ -29,7 +29,7 @@ namespace FcPhp\Datasource
             return $this;
         }
 
-        protected function getCriteria()
+        protected function getCriteria(string $name)
         {
             $this->factory->getCriteria();
         }
