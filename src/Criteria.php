@@ -69,12 +69,12 @@ namespace FcPhp\Datasource
          * @param string|int|bool $value Value to compare
          * @return FcPhp\Datasource\Interfaces\ICriteria
          */
-        public function condition(string $field, string $condition, $value) :ICriteria
+        public function condition(string $field, string $condition, $value, bool $isColumn = false) :ICriteria
         {
-            if(is_string($value)) {
+            if(is_string($value) && !$isColumn) {
                 $value = sprintf($this->conditionString, $value);
             }
-            if(is_int($value)) {
+            if(is_int($value) || $isColumn) {
                 $value = sprintf($this->conditionInt, $value);
             }
             $this->where[] = $field . $this->conditionSpace . $condition . $this->conditionSpace . $value;

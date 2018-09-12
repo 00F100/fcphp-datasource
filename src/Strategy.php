@@ -16,24 +16,9 @@ namespace FcPhp\Datasource
             $this->factory = $factory;
         }
 
-        public function select() :IStrategy
-        {
-            return $this;
-        }
-
-        public function from() :IStrategy
-        {
-            return $this;
-        }
-
-        public function where() :IStrategy
-        {
-            return $this;
-        }
-
         protected function getCriteria()
         {
-            $this->factory->getCriteria($this->criteria);
+            return $this->factory->getCriteria($this->criteria);
         }
     }
 }
