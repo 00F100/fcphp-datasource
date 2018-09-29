@@ -16,7 +16,7 @@ namespace FcPhp\Datasource
             $this->factory = $factory;
         }
 
-        protected function getCriteria()
+        public function getCriteria()
         {
             return $this->factory->getCriteria($this->criteria);
         }

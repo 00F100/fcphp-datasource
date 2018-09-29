@@ -57,7 +57,7 @@ namespace FcPhp\Datasource
          */
         public function getStrategy() :string
         {
-            return return $this->strategy;
+            return $this->strategy;
         }
     }
 }
