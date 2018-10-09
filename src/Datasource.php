@@ -4,6 +4,7 @@ namespace FcPhp\Datasource
 {
     use FcPhp\Datasource\Interfaces\IQuery;
     use FcPhp\Datasource\Interfaces\IDatasource;
+    use FcPhp\Datasource\Interfaces\IStrategy;
 
     abstract class Datasource implements IDatasource
     {
@@ -13,9 +14,9 @@ namespace FcPhp\Datasource
         /**
          * Method to construct instance
          *
-         * @param string $strategy Strategy to use
+         * @param IStrategy $strategy Strategy to use
          */
-        public function __construct(string $strategy)
+        public function __construct(IStrategy $strategy)
         {
             $this->strategy = $strategy;
         }
