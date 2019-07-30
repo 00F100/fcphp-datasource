@@ -2,63 +2,79 @@
 
 namespace FcPhp\Datasource
 {
-    use FcPhp\Datasource\Interfaces\IQuery;
+    use FcPhp\Datasource\Interfaces\IAuth;
+    use FcPhp\Datasource\Interfaces\ISource;
+    use FcPhp\Datasource\Interfaces\IRequest;
+    use FcPhp\Datasource\Interfaces\IResponse;
     use FcPhp\Datasource\Interfaces\IDatasource;
-    use FcPhp\Datasource\Interfaces\IStrategy;
 
     abstract class Datasource implements IDatasource
     {
-        protected $isConnected;
-        protected $strategy;
+        /**
+         * @var FcPhp\Datasource\Interfaces\IAuth
+         */
+        private $auth;
 
         /**
-         * Method to construct instance
-         *
-         * @param IStrategy $strategy Strategy to use
+         * @var FcPhp\Datasource\Interfaces\ISource
          */
-        public function __construct(IStrategy $strategy)
+        private $source;
+
+        /**
+         * @var FcPhp\Datasource\Interfaces\IRequest
+         */
+        private $request;
+
+        /**
+         * @var string|int
+         */
+        private $connection_id;
+
+        /**
+         * Method to construct instace of Datasource
+         *
+         * @param FcPhp\Datasource\Interfaces\IAuth $auth
+         * @param FcPhp\Datasource\Interfaces\ISource $source
+         * @param FcPhp\Datasource\Interfaces\IRequest $request
+         * @return void
+         */
+        public function __construct(IAuth $auth, ISource $source, IRequest $request)
         {
-            $this->strategy = $strategy;
+            $this->auth = $auth;
+            $this->source = $source;
+            $this->request = $request;
         }
 
         /**
-         * Method to connect
-         *
+         * Method to connect from source
+         *authauth
          * @return bool
          */
         public function connect() :bool
         {
-            return false;
+            return $this->source->connect($this->auth);
         }
 
         /**
-         * Method to disconnect
+         * Method to disconnect from source
          *
          * @return bool
          */
         public function disconnect() :bool
         {
-            return false;
+            return $this->source->disconnect();
         }
 
         /**
-         * Method to execute query
+         * Method to request something from source
          *
-         * @return array
+         * @param array $params
+         * @return FcPhp\Datasource\Interfaces\IResponse
          */
-        public function execute(IQuery $query) :array
+        public function request(array $params) :IResponse
         {
-            return [];
-        }
-
-        /**
-         * Method to return strategy of query
-         *
-         * @return string
-         */
-        public function getStrategy() :string
-        {
-            return $this->strategy;
+            $this->request->merge($params);
+            return $this->source->request($this->request);
         }
     }
 }
